@@ -84,3 +84,41 @@ func Retrieve(w http.ResponseWriter, r *http.Request) {
 	logger.Info("list of all items")
 }
 */
+
+/*
+func UpdateData(rw http.ResponseWriter, r *http.Request) {
+	logger.Info("User called updateData method")
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	if !validations.ValidateRequestMethod(rw, r, http.MethodPut){
+		return
+	}
+
+	decoder := json.NewDecoder(r.Body)
+	var newProducts map[string]interface{}
+	err := decoder.Decode(&newProducts)
+
+	if err != nil {
+		fmt.Fprintf(rw, "Error decoding update request: %v", err)
+		logger.Error(fmt.Sprintf("Error decoding update request: %v", err))
+		return
+	}
+
+	for key, value := range newProducts{
+
+		if _, ok := kvStore.Products[key]; !ok{
+			rw.WriteHeader(http.StatusNotFound)
+			fmt.Fprintf(rw, "This key: %v does not exist\n", key)
+			logger.Error(fmt.Sprintf("This key: %v does not exist\n", key))
+			return
+		} 		
+		kvStore.Products[key] = value
+	}
+	rw.WriteHeader(http.StatusOK)
+}
+*/
