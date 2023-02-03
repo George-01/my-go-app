@@ -122,3 +122,30 @@ func UpdateData(rw http.ResponseWriter, r *http.Request) {
 	rw.WriteHeader(http.StatusOK)
 }
 */
+
+/*
+func DeleteData(rw http.ResponseWriter, r *http.Request) {
+	logger.Info("User called deleteData method")
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	if !validations.ValidateRequestMethod(rw, r, http.MethodDelete){
+		return
+	}
+
+	qryData := r.URL.RawQuery
+	fmt.Printf("the key is %v\n", qryData)
+	
+	if _, ok := kvStore.Products[qryData]; !ok{
+		rw.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(rw, "This key: %v does not exist\n", qryData)
+		logger.Error(fmt.Sprintf("This key: %v does not exist\n", qryData))
+		return
+	} 
+	//delete entry
+	delete(kvStore.Products, qryData)
+	rw.WriteHeader(http.StatusNoContent)
+	logger.Info(fmt.Sprintf("User deleted an entry with key: %v\n", qryData))
+}
+*/
