@@ -53,3 +53,34 @@ func CreateData(rw http.ResponseWriter, r *http.Request) {
 	logger.Info("User created new items")
 }
 */
+
+/*
+func Retrieve(w http.ResponseWriter, r *http.Request) {
+	logger.Info("User called the retrieve method")
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	if !validations.ValidateRequestMethod(w, r, http.MethodGet){
+		return
+	}
+
+	if kvStore.Products == nil {
+		http.Error(w, "No data available yet", http.StatusNotFound)
+		logger.Error("No data available yet")
+	}
+	for k, v := range kvStore.Products{
+		switch b := v.(type) {
+		case string:
+			fmt.Fprintf(w, "%v : %q\n", k, b)
+		case float64:
+			fmt.Fprintf(w, "%v : %v\n", k, b)
+		case bool:
+			fmt.Fprintf(w, "%v : %v\n", k, b)
+		default:
+			fmt.Fprintf(w, "%v : %v\n", k, b)
+		}
+	}
+	logger.Info("list of all items")
+}
+*/
