@@ -176,3 +176,13 @@ func ListData(w http.ResponseWriter, r *http.Request) {
 	logger.Info("list of all items")
 }
 */
+
+/*
+var Products = map[string]interface{} {
+
+	"name":"Apple Mac Book Pro",
+	"price": 1999.99,
+	"inStock": true,
+	"categories": []string{"Computers", "Laptop", "Apple"},
+}
+*/
