@@ -186,3 +186,101 @@ var Products = map[string]interface{} {
 	"categories": []string{"Computers", "Laptop", "Apple"},
 }
 */
+
+/*Updated*/
+/*
+package main
+
+import (
+	"fmt"
+)
+
+type Repository interface {
+	Create(map[string]interface{})
+	Read(string) map[string]interface{}
+	Update(string, map[string]interface{})
+	Delete(string)
+}
+
+type MapRepository struct {
+	data map[string]map[string]interface{}
+}
+
+func (m *MapRepository) Create(data map[string]interface{}) {
+	id := data["id"].(string)
+	m.data[id] = data
+}
+
+func (m *MapRepository) Read(id string) map[string]interface{} {
+	return m.data[id]
+}
+
+func (m *MapRepository) Update(id string, data map[string]interface{}) {
+	m.data[id] = data
+}
+
+func (m *MapRepository) Delete(id string) {
+	delete(m.data, id)
+}
+
+type Service struct {
+	repo Repository
+}
+
+func (s *Service) Create(data map[string]interface{}) {
+	s.repo.Create(data)
+}
+
+func (s *Service) Read(id string) map[string]interface{} {
+	return s.repo.Read(id)
+}
+
+func (s *Service) Update(id string, data map[string]interface{}) {
+	s.repo.Update(id, data)
+}
+
+func (s *Service) Delete(id string) {
+	s.repo.Delete(id)
+}
+
+func main() {
+	repo := &MapRepository{
+		data: make(map[string]map[string]interface{}),
+	}
+	service := &Service{
+		repo: repo,
+	}
+
+	data := map[string]interface{}{
+		"id":   "1",
+		"name": "John Doe",
+		"age":  30,
+	}
+	service.Create(data)
+
+	readData := service.Read("1")
+	fmt.Println("Read Data:", readData)
+
+	data = map[string]interface{}{
+		"id":   "1",
+		"name": "Jane Doe",
+		"age":  32,
+	}
+	service.Update("1", data)
+
+	readData = service.Read("1")
+	fmt.Println("Read Data after update:", readData)
+
+	service.Delete("1")
+
+	readData = service.Read("1")
+	fmt.Println("Read Data after delete:", readData)
+}
+
+*/
+/*Notes:
+The Repository interface defines the methods for a CRUD service.
+The MapRepository struct implements the Repository interface using the map[string]interface{} data structure.
+The Service struct implements the CRUD methods using the Repository interface, which can be any implementation of the Repository interface.
+In the main function, we create an instance of MapRepository and Service and demonstrate the CRUD operations.
+*/
