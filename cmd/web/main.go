@@ -368,3 +368,96 @@ func main() {
 ``
 
 */
+
+/*3rd Segment*/
+/*
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+// DataRepository interface defines the operations for a CRUD service
+type DataRepository interface {
+	Create(key string, value interface{}) error
+	Read(key string) (interface{}, error)
+	Update(key string, value interface{}) error
+	Delete(key string) error
+}
+
+// MapDataRepository implements the DataRepository interface using a map
+type MapDataRepository struct {
+	data map[string]interface{}
+	mu   sync.Mutex
+}
+
+// Create adds a new key-value pair to the map
+func (m *MapDataRepository) Create(key string, value interface{}) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	if _, ok := m.data[key]; ok {
+		return fmt.Errorf("Key %s already exists", key)
+	}
+	m.data[key] = value
+	return nil
+}
+
+// Read retrieves the value for a given key from the map
+func (m *MapDataRepository) Read(key string) (interface{}, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	if value, ok := m.data[key]; ok {
+		return value, nil
+	}
+	return nil, fmt.Errorf("Key %s does not exist", key)
+}
+
+// Update updates the value for a given key in the map
+func (m *MapDataRepository) Update(key string, value interface{}) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	if _, ok := m.data[key]; ok {
+		m.data[key] = value
+		return nil
+	}
+	return fmt.Errorf("Key %s does not exist", key)
+}
+
+// Delete removes a key-value pair from the map
+func (m *MapDataRepository) Delete(key string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	if _, ok := m.data[key]; ok {
+		delete(m.data, key)
+		return nil
+	}
+	return fmt.Errorf("Key %s does not exist", key)
+}
+
+func main() {
+	repo := &MapDataRepository{
+		data: make(map[string]interface{}),
+	}
+
+	repo.Create("key1", "value1")
+	repo.Create("key2", 2)
+
+	value, _ := repo.Read("key1")
+	fmt.Println(value) // Output: value1
+
+	repo.Update("key2", 3)
+	value, _ = repo.Read("key2")
+	fmt.Println(value) // Output: 3
+
+	repo.Delete("key1")
+	_, err := repo.Read("key1")
+	fmt.Println(err) // Output: Key key1 does not exist
+}
+
+*/
+
