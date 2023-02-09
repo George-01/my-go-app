@@ -535,3 +535,93 @@ func main() {
 
 */
 
+/*Segment 5
+
+*/
+
+/*
+package main
+
+import (
+	"sync"
+)
+
+// DataStore is an interface that defines the methods for CRUD operations.
+type DataStore interface {
+	Create(key string, data map[string]interface{})
+	Read(key string) map[string]interface{}
+	Update(key string, data map[string]interface{})
+	Delete(key string)
+}
+
+// MapDataStore is an implementation of the DataStore interface that uses a map.
+type MapDataStore struct {
+	data map[string]map[string]interface{}
+	mutex sync.Mutex
+}
+
+// NewMapDataStore returns a new instance of MapDataStore.
+func NewMapDataStore() *MapDataStore {
+	return &MapDataStore{
+		data: make(map[string]map[string]interface{}),
+	}
+}
+
+// Create adds a new entry to the map.
+func (m *MapDataStore) Create(key string, data map[string]interface{}) {
+	m.mutex.Lock()
+	defer m.mutex.Unlock()
+	
+	m.data[key] = data
+}
+
+// Read retrieves an entry from the map.
+func (m *MapDataStore) Read(key string) map[string]interface{} {
+	m.mutex.Lock()
+	defer m.mutex.Unlock()
+	
+	return m.data[key]
+}
+
+// Update updates an existing entry in the map.
+func (m *MapDataStore) Update(key string, data map[string]interface{}) {
+	m.mutex.Lock()
+	defer m.mutex.Unlock()
+	
+	m.data[key] = data
+}
+
+// Delete removes an entry from the map.
+func (m *MapDataStore) Delete(key string) {
+	m.mutex.Lock()
+	defer m.mutex.Unlock()
+	
+	delete(m.data, key)
+}
+
+func main() {
+	dataStore := NewMapDataStore()
+	
+	// Example usage:
+	dataStore.Create("key1", map[string]interface{}{
+		"name": "John Doe",
+		"age": 30,
+	})
+	
+	data := dataStore.Read("key1")
+	println(data) // Output: map[age:30 name:John Doe]
+	
+	dataStore.Update("key1", map[string]interface{}{
+		"name": "Jane Doe",
+		"age": 31,
+	})
+	
+	data = dataStore.Read("key1")
+	println(data) // Output: map[age:31 name:Jane Doe]
+	
+	dataStore.Delete("key1")
+	
+	data = dataStore.Read("key1")
+	println(data) // Output: map[]
+}
+*/
