@@ -461,3 +461,77 @@ func main() {
 
 */
 
+/*Segment 4
+In this example, the DataStore interface defines the operations that can be performed on the data store. 
+The DataService struct implements the DataStore interface and uses a mutex to synchronize access to the map[string]interface{} data store. 
+The main function demonstrates the use of the Create, Read, Update, and Delete operations on the data store.
+*/
+
+/*
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+type DataStore interface {
+	Create(key string, value interface{})
+	Read(key string) interface{}
+	Update(key string, value interface{})
+	Delete(key string)
+}
+
+type DataService struct {
+	data map[string]interface{}
+	mux  sync.Mutex
+}
+
+func (ds *DataService) Create(key string, value interface{}) {
+	ds.mux.Lock()
+	defer ds.mux.Unlock()
+	ds.data[key] = value
+}
+
+func (ds *DataService) Read(key string) interface{} {
+	ds.mux.Lock()
+	defer ds.mux.Unlock()
+	return ds.data[key]
+}
+
+func (ds *DataService) Update(key string, value interface{}) {
+	ds.mux.Lock()
+	defer ds.mux.Unlock()
+	ds.data[key] = value
+}
+
+func (ds *DataService) Delete(key string) {
+	ds.mux.Lock()
+	defer ds.mux.Unlock()
+	delete(ds.data, key)
+}
+
+func main() {
+	dataService := &DataService{
+		data: make(map[string]interface{}),
+	}
+	dataService.Create("name", "John Doe")
+	dataService.Create("age", 30)
+	dataService.Create("address", "123 Main St.")
+	fmt.Println("Name:", dataService.Read("name"))
+	fmt.Println("Age:", dataService.Read("age"))
+	fmt.Println("Address:", dataService.Read("address"))
+	dataService.Update("name", "Jane Doe")
+	dataService.Update("age", 35)
+	dataService.Update("address", "456 Main St.")
+	fmt.Println("Name:", dataService.Read("name"))
+	fmt.Println("Age:", dataService.Read("age"))
+	fmt.Println("Address:", dataService.Read("address"))
+	dataService.Delete("name")
+	dataService.Delete("age")
+	dataService.Delete("address")
+	fmt.Println("Data:", dataService.data)
+}
+
+*/
+
