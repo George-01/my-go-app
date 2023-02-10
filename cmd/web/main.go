@@ -741,3 +741,88 @@ func (h *requestHandler) DeleteData(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 */
+
+
+/*T-Result*/
+
+/*
+package router
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
+
+func TestRetrieve(t *testing.T) {
+	store := kvStore.DataStore{
+		Data: make(map[string]interface{}),
+	}
+	handler := &requestHandler{
+		store: store,
+	}
+	req, err := http.NewRequest(http.MethodGet, "/read?key=testKey", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	handler.Retrieve(rr, req)
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+	expected := `"\"Key not found\"" string `
+	if rr.Body.String() != expected {
+		t.Errorf("handler returned unexpected body: got %v want %v",
+			rr.Body.String(), expected)
+	}
+}
+
+func TestCreateData(t *testing.T) {
+	store := kvStore.DataStore{
+		Data: make(map[string]interface{}),
+	}
+	handler := &requestHandler{
+		store: store,
+	}
+	req, err := http.NewRequest(http.MethodPost, "/create?key=testKey&value=testValue", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	handler.CreateData(rr, req)
+	if status := rr.Code; status != http.StatusCreated {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusCreated)
+	}
+}
+
+func TestUpdateData(t *testing.T) {
+	store := kvStore.DataStore{
+		Data: make(map[string]interface{}),
+	}
+	store.CreateProduct("testKey", "testValue")
+	handler := &requestHandler{
+		store: store,
+	}
+	req, err := http.NewRequest(http.MethodPut, "/update?key=testKey&value=newValue", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	handler.UpdateData(rr, req)
+	if status := rr.Code; status != http.StatusNoContent {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusNoContent)
+	}
+}
+
+func TestDeleteData(t *testing.T) {
+	store := kvStore.DataStore{
+		Data: make(map[string]interface{}),
+	}
+	store.CreateProduct("testKey", "testValue")
+	handler := &requestHandler{
+		store: store,
+
+*/
