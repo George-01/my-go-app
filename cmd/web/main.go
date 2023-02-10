@@ -826,3 +826,110 @@ func TestDeleteData(t *testing.T) {
 		store: store,
 
 */
+
+/*T-Result-2*/
+/*
+package router
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
+
+func TestRetrieve(t *testing.T) {
+	store := kvStore.DataStore{
+		Data: make(map[string]interface{}),
+	}
+	store.CreateProduct("testKey", "testValue")
+	handler := requestHandler{
+		store: store,
+	}
+
+	// Test with correct HTTP method (GET) and valid key
+	req, err := http.NewRequest("GET", "/read?key=testKey", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	handler.Retrieve(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	expected := "\"testValue\" string \n"
+	if rr.Body.String() != expected {
+		t.Errorf("handler returned unexpected body: got %v want %v",
+			rr.Body.String(), expected)
+	}
+
+	// Test with incorrect HTTP method (POST) and valid key
+	req, err = http.NewRequest("POST", "/read?key=testKey", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr = httptest.NewRecorder()
+	handler.Retrieve(rr, req)
+
+	if status := rr.Code; status != http.StatusMethodNotAllowed {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusMethodNotAllowed)
+	}
+
+	// Test with correct HTTP method (GET) and invalid key
+	req, err = http.NewRequest("GET", "/read?key=invalidKey", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr = httptest.NewRecorder()
+	handler.Retrieve(rr, req)
+
+	if status := rr.Code; status != http.StatusNotFound {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusNotFound)
+	}
+}
+
+*/
+
+/*T-Result-3*/
+/*
+package router
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
+
+func TestRetrieve(t *testing.T) {
+	store := kvStore.DataStore{}
+	store.CreateProduct("key1", "value1")
+	store.CreateProduct("key2", "value2")
+	store.CreateProduct("key3", "value3")
+
+	req, err := http.NewRequest("GET", "/read?key=key2", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{store: store}
+
+	handler.Retrieve(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	expected := `"value2" string \n`
+	if rr.Body.String() != expected {
+		t.Errorf("handler returned unexpected body: got %v want %v",
+			rr.Body.String(), expected)
+	}
+}
+
+*/
