@@ -1155,3 +1155,9 @@ func (w *TestResponseWriter) Write(b []byte) (int, error) {
 }
 
 */
+/* book */
+/*
+
+https://bitfieldconsulting.com/commerce/digital-download/6342c4dd9d284817125098a6?oid=63e60375a490ea3d44e0f61d&token=V1:YrckPaJVZ0zpAnAsZVGMNO0JYFInEOLYHjKdWG6fBpSJrQheThVjnNakf1PwejNmDr8VABhMPoRkeSzk9ck82Dqz2QzGEJZCMcbiP7DdxBaMEF0y0AtgbxhtBIMnaMxA-FyrQhwSpaifN2E7UZ38sErB7WMJAyqBXBtNTif0-n0=
+
+*/
