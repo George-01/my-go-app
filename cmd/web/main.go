@@ -952,3 +952,134 @@ func ValidateRequestMethod(w http.ResponseWriter, r *http.Request, method string
 }
 
 */
+/*T-Result_B*/
+/*
+package validations
+
+import (
+	"net/http"
+	"testing"
+)
+
+func TestValidateRequestMethod(t *testing.T) {
+	tests := []struct {
+		name       string
+		method     string
+		requestMethod string
+		expected   bool
+	}{
+		{
+			name:       "valid GET method",
+			method:     http.MethodGet,
+			requestMethod: http.MethodGet,
+			expected:   true,
+		},
+		{
+			name:       "valid POST method",
+			method:     http.MethodPost,
+			requestMethod: http.MethodPost,
+			expected:   true,
+		},
+		{
+			name:       "invalid method",
+			method:     http.MethodGet,
+			requestMethod: http.MethodPost,
+			expected:   false,
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			r, _ := http.NewRequest(test.requestMethod, "/", nil)
+			w := &mockResponseWriter{}
+			result := ValidateRequestMethod(w, r, test.method)
+			if result != test.expected {
+				t.Errorf("Expected %v but got %v", test.expected, result)
+			}
+		})
+	}
+}
+
+type mockResponseWriter struct{}
+
+func (m *mockResponseWriter) Header() http.Header {
+	return http.Header{}
+}
+
+func (m *mockResponseWriter) Write([]byte) (int, error) {
+	return 0, nil
+}
+
+func (m *mockResponseWriter) WriteHeader(statusCode int) {}
+
+*/
+
+/*T-Result-C*/
+/*
+package validations
+
+import (
+	"net/http"
+	"testing"
+)
+
+func TestValidateRequestMethod(t *testing.T) {
+	tests := []struct {
+		name         string
+		method       string
+		expectedCode int
+		expectedBody string
+	}{
+		{"Valid GET", "GET", 200, ""},
+		{"Invalid POST", "POST", 405, "Invalid method: GET"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			req, err := http.NewRequest(test.method, "/", nil)
+			if err != nil {
+				t.Fatalf("Failed to create request: %v", err)
+			}
+
+			w := newTestResponseWriter()
+			result := ValidateRequestMethod(w, req, "GET")
+
+			if result != (test.expectedCode == 200) {
+				t.Errorf("Unexpected result. Got %v, expected %v", result, (test.expectedCode == 200))
+			}
+
+			if w.Code != test.expectedCode {
+				t.Errorf("Unexpected response code. Got %v, expected %v", w.Code, test.expectedCode)
+			}
+
+			if w.Body.String() != test.expectedBody {
+				t.Errorf("Unexpected response body. Got %v, expected %v", w.Body.String(), test.expectedBody)
+			}
+		})
+	}
+}
+
+// newTestResponseWriter is a helper function to create a response writer for testing
+func newTestResponseWriter() *TestResponseWriter {
+	return &TestResponseWriter{
+		Code: 200,
+		Body: new(bytes.Buffer),
+	}
+}
+
+// TestResponseWriter is a custom response writer for testing
+type TestResponseWriter struct {
+	Code int
+	Body *bytes.Buffer
+}
+
+// WriteHeader sets the status code for the response
+func (w *TestResponseWriter) WriteHeader(code int) {
+	w.Code = code
+}
+
+// Write writes the data to the response body
+func (w *TestResponseWriter) Write(b []byte) (int, error) {
+	return w.Body.Write(b)
+}
+
+*/
