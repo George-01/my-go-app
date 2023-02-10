@@ -933,3 +933,22 @@ func TestRetrieve(t *testing.T) {
 }
 
 */
+/*Segment-2*/
+/*
+package validations
+
+import (
+	"net/http"
+	"fmt"
+)
+
+func ValidateRequestMethod(w http.ResponseWriter, r *http.Request, method string) bool{
+	if r.Method != method {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		fmt.Fprintf(w, "Invalid method: %v", r.Method)
+		return false
+	}
+	return true
+}
+
+*/
