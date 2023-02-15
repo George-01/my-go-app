@@ -1161,3 +1161,97 @@ func (w *TestResponseWriter) Write(b []byte) (int, error) {
 https://bitfieldconsulting.com/commerce/digital-download/6342c4dd9d284817125098a6?oid=63e60375a490ea3d44e0f61d&token=V1:YrckPaJVZ0zpAnAsZVGMNO0JYFInEOLYHjKdWG6fBpSJrQheThVjnNakf1PwejNmDr8VABhMPoRkeSzk9ck82Dqz2QzGEJZCMcbiP7DdxBaMEF0y0AtgbxhtBIMnaMxA-FyrQhwSpaifN2E7UZ38sErB7WMJAyqBXBtNTif0-n0=
 
 */
+/*
+package bookstore_test
+
+import (
+	"bookstore"
+	"testing"
+	"github.com/google/go-cmp/cmp"
+)
+
+
+
+func TestBook(t *testing.T) {
+	t.Parallel()
+
+	_ = bookstore.Book {
+		Title: "Spark Joy",
+		Author: "Marie ndo",
+		Copies: 2,
+	}
+}
+
+func TestBuy(t *testing.T) {
+	t.Parallel()
+	b := bookstore.Book {
+		Title: "Spark Joy",
+		Author: "Marie ndo",
+		Copies: 2,
+	}
+	want := 1
+	result, err := bookstore.Buy(b)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := result.Copies
+	if want != got {
+		t.Errorf("want %d, got %d", want, got)
+	}
+}
+
+func TestBuyErrorksIfNoCopiesLeft(t *testing.T) {
+	t.Parallel()
+	b := bookstore.Book {
+		Title: "Spark Joy",
+		Author: "Marie ndo",
+		Copies: 0,
+	}
+	_, err := bookstore.Buy(b)
+
+	if err == nil {
+		t.Error("want error buying freom zero copies, got nil")
+	}
+}
+
+func TestGetAllBooks(t *testing.T) {
+	t.Parallel()
+	catalog := []bookstore.Book{
+		{Title: "For the Love of Go"},
+		{Title: "The Power of Go: Tools"},
+	}
+	want := []bookstore.Book{
+		{Title: "For the Love of Go"},
+		{Title: "The Power of Go: Tools"},
+	}
+
+	got := bookstore.GetAllBooks(catalog)
+	if !cmp.Equal(want, got) {
+		t.Error(cmp.Diff(want, got))
+	}
+}
+
+/*Main file*/
+package bookstore
+
+import "errors"
+
+//Book represents information about a book
+type Book struct {
+	Title string
+	Author string
+	Copies int
+}
+
+func Buy(b Book) (Book, error) {
+	if b.Copies == 0 {
+		return Book{}, errors.New("no copies left")
+	}
+	b.Copies--
+	return b, nil
+}
+
+func GetAllBooks(b []Book) ([]Book){
+	return []Book{}//, nil
+}
+*/
