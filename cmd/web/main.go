@@ -1255,3 +1255,118 @@ func GetAllBooks(b []Book) ([]Book){
 	return []Book{}//, nil
 }
 */
+
+
+
+/*---------------------------htWeb------------------------------------------------------*/
+/*
+
+package router
+
+import (
+	"fmt"
+	"my-web-server/kvStore"
+	"my-web-server/logger"
+	"my-web-server/validations"
+	"net/http"
+)
+
+type requestHandler struct {
+	store kvStore.DataStore
+}
+
+func InitialiseRoutes(store kvStore.DataStore) {
+	httpHandler := requestHandler{store: store}
+
+	http.HandleFunc("/read", httpHandler.Retrieve)
+	http.HandleFunc("/create", httpHandler.CreateData)
+	http.HandleFunc("/update", httpHandler.UpdateData)
+	http.HandleFunc("/delete", httpHandler.DeleteData)
+}
+
+//Retrieve Gets/Displays all items
+func (h *requestHandler) Retrieve(w http.ResponseWriter, r *http.Request) {
+	if !validations.ValidateRequestMethod(w, r, http.MethodGet) {
+		return
+	}
+	logger.Info("User called the retrieve method")
+
+	key := r.URL.Query().Get("key")
+
+	value, err := h.store.ReadProduct(key)
+	if err != nil {
+		logger.Error(fmt.Sprintf("%v: %v ", key, err.Error()))
+		fmt.Fprintf(w, "%v: %v", key, err)
+	}
+
+	switch b := value.(type) {
+	case string:
+		fmt.Fprintf(w, "%q string \n", b)
+	case float64:
+		fmt.Fprintf(w, "%v float \n", b)
+	case bool:
+		fmt.Fprintf(w, "%v bool \n", b)
+	default:
+		fmt.Fprintf(w, "%v default \n ", b)
+	}
+}
+
+//CreateData Creates new items
+func (h *requestHandler) CreateData(w http.ResponseWriter, r *http.Request) {
+	if !validations.ValidateRequestMethod(w, r, http.MethodPost) {
+		return
+	}
+	logger.Info("User called the createData method")
+	key := r.URL.Query().Get("key")
+	value := r.URL.Query().Get("value")
+
+	err := h.store.CreateProduct(key, value)
+
+	if err != nil {
+		fmt.Fprintf(w, "%v \n", err.Error())
+		logger.Error(fmt.Sprintf("%v ", err.Error()))
+		w.WriteHeader(http.StatusConflict)
+	}
+	w.WriteHeader(http.StatusCreated)
+}
+
+//UpdateData Updates existing item
+func (h *requestHandler) UpdateData(w http.ResponseWriter, r *http.Request) {
+	if !validations.ValidateRequestMethod(w, r, http.MethodPut) {
+		return
+	}
+
+	logger.Info("User called the updateData method")
+	key := r.URL.Query().Get("key")
+	value := r.URL.Query().Get("value")
+
+	err := h.store.UpdateProduct(key, value)
+	if err != nil {
+		fmt.Fprintf(w, "%v \n", err.Error())
+		logger.Error(fmt.Sprintf("%v ", err.Error()))
+		w.WriteHeader(http.StatusNotFound)
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+//DeleteData Deletes an existing item
+func (h *requestHandler) DeleteData(w http.ResponseWriter, r *http.Request) {
+	if !validations.ValidateRequestMethod(w, r, http.MethodDelete) {
+		return
+	}
+	logger.Info("User called the deleteData method")
+	key := r.URL.Query().Get("key")
+
+	err := h.store.DeleteProduct(key)
+
+	if err != nil {
+		fmt.Fprintf(w, "%v \n", err.Error())
+		logger.Error(fmt.Sprintf("%v ", err.Error()))
+		w.WriteHeader(http.StatusNotFound)
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+
+*/
+
