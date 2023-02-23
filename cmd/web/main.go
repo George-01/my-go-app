@@ -1578,5 +1578,109 @@ func TestDeleteData(t *testing.T) {
 */
 /*To Use*/
 /*-----1------
+package router
+
+import (
+	"bytes"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
+
+// Mock data store implementation for testing
+type mockStore struct{}
+
+func (m *mockStore) CreateProduct(key, value string) error {
+	return nil
+}
+
+func (m *mockStore) ReadProduct(key string) (interface{}, error) {
+	return "test_value", nil
+}
+
+func (m *mockStore) UpdateProduct(key, value string) error {
+	return nil
+}
+
+func (m *mockStore) DeleteProduct(key string) error {
+	return nil
+}
+
+func TestRetrieve(t *testing.T) {
+	req, err := http.NewRequest("GET", "/read?key=test_key", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{
+		store: &mockStore{},
+	}
+
+	http.HandlerFunc(handler.Retrieve).ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+	}
+
+	expected := `"test_value" string \n`
+	if rr.Body.String() != expected {
+		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
+	}
+}
+
+func TestCreateData(t *testing.T) {
+	req, err := http.NewRequest("POST", "/create?key=test_key&value=test_value", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{
+		store: &mockStore{},
+	}
+
+	http.HandlerFunc(handler.CreateData).ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusCreated {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusCreated)
+	}
+}
+
+func TestUpdateData(t *testing.T) {
+	req, err := http.NewRequest("PUT", "/update?key=test_key&value=test_value", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{
+		store: &mockStore{},
+	}
+
+	http.HandlerFunc(handler.UpdateData).ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusNoContent {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusNoContent)
+	}
+}
+
+func TestDeleteData(t *testing.T) {
+	req, err := http.NewRequest("DELETE", "/delete?key=test_key", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{
+		store: &mockStore{},
+	}
+
+	http.HandlerFunc(handler.DeleteData).ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusNoContent {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusNoContent)
+	}
+}
 
 */
