@@ -1684,3 +1684,92 @@ func TestDeleteData(t *testing.T) {
 }
 
 */
+
+/*---------2-----Store-Q----------*/
+/*
+package kvStore
+
+import (
+	"fmt"
+	"my-web-server/logger"
+	"sync"
+)
+
+type DataStore interface {
+	CreateProduct(key string, value interface{}) error
+	ReadProduct(key string) (interface{}, error)
+	UpdateProduct(key string, value interface{}) error
+	DeleteProduct(key string) error
+}
+
+type DataService struct {
+	data map[string]interface{}
+	mu   sync.RWMutex
+}
+
+func NewDataService() *DataService {
+	return &DataService{
+		data: map[string]interface{}{
+			"name":       "Apple Mac Book Pro 2",
+			"price":      1999.99,
+			"inStock":    true,
+			"categories": []string{"Computers", "Laptop", "Apple"},
+		},
+	}
+}
+
+//Create implements the create function
+func (ds *DataService) CreateProduct(key string, value interface{}) error {
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+
+	if _, ok := ds.data[key]; ok {
+		logger.Error("")
+		return fmt.Errorf("key %s already exists", key)
+	}
+	ds.data[key] = value
+	return nil
+}
+
+//Read implements the read function
+func (ds *DataService) ReadProduct(key string) (interface{}, error) {
+	ds.mu.RLock()
+	defer ds.mu.RUnlock()
+
+	//check existence of key
+	value, exists := ds.data[key]
+	if !exists {
+		return nil, fmt.Errorf("key not found")
+	}
+	return value, nil
+}
+
+//Update implements the update function
+func (ds *DataService) UpdateProduct(key string, value interface{}) error {
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+
+	//check existence of key
+	_, exists := ds.data[key]
+	if !exists {
+		return fmt.Errorf("key not found")
+	}
+	ds.data[key] = value
+	return nil
+}
+
+//Delete
+func (ds *DataService) DeleteProduct(key string) error {
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+
+	//check existence of key
+	_, exists := ds.data[key]
+	if !exists {
+		return fmt.Errorf("key not found")
+	}
+	delete(ds.data, key)
+	return nil
+}
+
+*/
