@@ -1369,4 +1369,210 @@ func (h *requestHandler) DeleteData(w http.ResponseWriter, r *http.Request) {
 
 
 */
+/*1-----*/
+/*
+package router
 
+import (
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+)
+
+type mockDataStore struct{}
+
+func (m *mockDataStore) CreateProduct(key, value string) error {
+	return nil
+}
+
+func (m *mockDataStore) ReadProduct(key string) (interface{}, error) {
+	return "test", nil
+}
+
+func (m *mockDataStore) UpdateProduct(key, value string) error {
+	return nil
+}
+
+func (m *mockDataStore) DeleteProduct(key string) error {
+	return nil
+}
+
+func TestRetrieve(t *testing.T) {
+	req, err := http.NewRequest("GET", "/read?key=test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{store: &mockDataStore{}}
+	http.HandlerFunc(handler.Retrieve).ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+	}
+
+	expected := "\"test\" string \n"
+	if rr.Body.String() != expected {
+		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
+	}
+}
+
+func TestCreateData(t *testing.T) {
+	req, err := http.NewRequest("POST", "/create?key=test&value=test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{store: &mockDataStore{}}
+	http.HandlerFunc(handler.CreateData).ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusCreated {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusCreated)
+	}
+
+	if rr.Body.String() != "" {
+		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), "")
+	}
+}
+
+func TestUpdateData(t *testing.T) {
+	req, err := http.NewRequest("PUT", "/update?key=test&value=test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{store: &mockDataStore{}}
+	http.HandlerFunc(handler.UpdateData).ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusNoContent {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusNoContent)
+	}
+
+	if rr.Body.String() != "" {
+		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), "")
+	}
+}
+
+func TestDeleteData(t *testing.T) {
+	req, err := http.NewRequest("DELETE", "/delete?key=test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := &requestHandler{store: &mockDataStore{}}
+	http.HandlerFunc(handler.DeleteData).ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusNoContent {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusNoContent)
+	}
+
+	if rr.Body.String() != "" {
+		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), "")
+	}
+}
+
+
+*/
+
+/*2-------*/
+/*
+package router
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
+
+type mockDataStore struct {}
+
+func (m *mockDataStore) ReadProduct(key string) (interface{}, error) {
+	return "value", nil
+}
+
+func (m *mockDataStore) CreateProduct(key, value string) error {
+	return nil
+}
+
+func (m *mockDataStore) UpdateProduct(key, value string) error {
+	return nil
+}
+
+func (m *mockDataStore) DeleteProduct(key string) error {
+	return nil
+}
+
+func TestRetrieve(t *testing.T) {
+	handler := requestHandler{store: &mockDataStore{}}
+
+	req, err := http.NewRequest("GET", "/read?key=test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler.Retrieve(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+	}
+
+	expected := `"value" string \n`
+	if rr.Body.String() != expected {
+		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
+	}
+}
+
+func TestCreateData(t *testing.T) {
+	handler := requestHandler{store: &mockDataStore{}}
+
+	req, err := http.NewRequest("POST", "/create?key=test&value=value", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler.CreateData(rr, req)
+
+	if status := rr.Code; status != http.StatusCreated {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusCreated)
+	}
+}
+
+func TestUpdateData(t *testing.T) {
+	handler := requestHandler{store: &mockDataStore{}}
+
+	req, err := http.NewRequest("PUT", "/update?key=test&value=value", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler.UpdateData(rr, req)
+
+	if status := rr.Code; status != http.StatusNoContent {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusNoContent)
+	}
+}
+
+func TestDeleteData(t *testing.T) {
+	handler := requestHandler{store: &mockDataStore{}}
+
+	req, err := http.NewRequest("DELETE", "/delete?key=test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler.DeleteData(rr, req)
+
+	if status := rr.Code; status != http.StatusNoContent {
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusNoContent)
+	}
+}
+
+*/
