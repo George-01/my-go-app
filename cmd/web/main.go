@@ -1773,3 +1773,60 @@ func (ds *DataService) DeleteProduct(key string) error {
 }
 
 */
+/**Result*/
+/*
+package kvStore
+
+import (
+	"testing"
+)
+
+func TestKVStore(t *testing.T) {
+	ds := NewDataService()
+
+	//Test CreateProduct
+	err := ds.CreateProduct("color", "blue")
+	if err != nil {
+		t.Errorf("CreateProduct failed, expected nil error but got %v", err)
+	}
+
+	//Test ReadProduct
+	value, err := ds.ReadProduct("color")
+	if err != nil {
+		t.Errorf("ReadProduct failed, expected nil error but got %v", err)
+	}
+	if value != "blue" {
+		t.Errorf("ReadProduct failed, expected 'blue' but got %v", value)
+	}
+
+	//Test UpdateProduct
+	err = ds.UpdateProduct("color", "red")
+	if err != nil {
+		t.Errorf("UpdateProduct failed, expected nil error but got %v", err)
+	}
+
+	//Test ReadProduct after update
+	value, err = ds.ReadProduct("color")
+	if err != nil {
+		t.Errorf("ReadProduct failed, expected nil error but got %v", err)
+	}
+	if value != "red" {
+		t.Errorf("ReadProduct failed, expected 'red' but got %v", value)
+	}
+
+	//Test DeleteProduct
+	err = ds.DeleteProduct("color")
+	if err != nil {
+		t.Errorf("DeleteProduct failed, expected nil error but got %v", err)
+	}
+
+	//Test ReadProduct after delete
+	value, err = ds.ReadProduct("color")
+	if err == nil {
+		t.Errorf("ReadProduct failed, expected error but got nil")
+	}
+}
+
+*/
+
+
